@@ -1,0 +1,2 @@
+# NoiseMonitor
+To design a  noise monitoring system that is able to detect and localize the noise levels in an area and analyze the data obtained through the cloud. The system will have several (2-3) nodes that can communicate with each other to analyze the data accurately. The data will be classified through an auto-map system that can identify the low/high level noise areas in real-time. The device is a solution that can solve the issues and concerns of noise pollution in Saskatchewan. 
