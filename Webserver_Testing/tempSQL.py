@@ -8,14 +8,6 @@ import threading
 from time import strftime
 import paho.mqtt.client as mqtt
 
-#while 1:
-def sendDataToServer():
-    dt = datetime.datetime.now().strftime('%Y-%m-%d %H"%M:%S')
-    print (dt)
-    print('{0}°C {1}%'.format(t, h))
-    urllib.urlopen("http://www.m0nitorsystem.com/add_data.php?dt="+dt+"&t="+t+"&h="+h).read()
-
-
     # Callback fires when conected to MQTT broker.
 def on_connect(client, userdata, flags, rc):
     print('Connected with result code {0}'.format(rc))
@@ -27,7 +19,10 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     # Decode temperature and humidity values from binary message paylod.
     t,h = [float(x) for x in msg.payload.decode("utf-8").split(',')]
-    sendDataToServer()  # Display data on webpage
+    dt = datetime.datetime.now().strftime('%Y-%m-%d %H"%M:%S')
+    print (dt)
+    print('{0}°C {1}%'.format(t, h))
+    urllib.urlopen("http://www.m0nitorsystem.com/add_data.php?dt="+dt+"&t="+t+"&h="+h).read()
 
 
 client = mqtt.Client()
