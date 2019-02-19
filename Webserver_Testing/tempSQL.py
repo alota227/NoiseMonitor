@@ -19,11 +19,9 @@ def on_message(client, userdata, msg):
     # Decode temperature and humidity values from binary message paylod.
     T,RH = [float(x) for x in msg.payload.decode("utf-8").split(',')]
     dt = datetime.datetime.now().strftime('%Y-%m-%d %H"%M:%S')
+    urllib.urlopen("http://www.m0nitorsystem.com/add_data.php?dt="+dt+"&T="+T+"&RH="+RH).read()
     print (dt)
     print('{0}°C {1}%'.format(T, RH))
-    temp = "%.1f" %T
-    hum  = "%.1f" %RH
-    urllib.urlopen("http://www.m0nitorsystem.com/add_data.php?dt="+dt+"&temp="+temp+"&hum="+hum).read()
     
 
 client = mqtt.Client()
