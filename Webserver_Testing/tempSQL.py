@@ -4,7 +4,6 @@ import os
 import datetime
 import requests
 import urllib
-import threading
 from time import strftime
 import paho.mqtt.client as mqtt
 
@@ -18,12 +17,14 @@ def on_connect(client, userdata, flags, rc):
 # Callback fires when a published message is received.
 def on_message(client, userdata, msg):
     # Decode temperature and humidity values from binary message paylod.
-    t,h = [float(x) for x in msg.payload.decode("utf-8").split(',')]
+    T,RH = [float(x) for x in msg.payload.decode("utf-8").split(',')]
     dt = datetime.datetime.now().strftime('%Y-%m-%d %H"%M:%S')
     print (dt)
-    print('{0}°C {1}%'.format(t, h))
-    urllib.urlopen("http://www.m0nitorsystem.com/add_data.php?dt="+dt+"&t="+t+"&h="+h).read()
-
+    print('{0}°C {1}%'.format(T, RH))
+    temp = "%.1f" %T
+    hum  = "%.1f" %RH
+    urllib.urlopen("http://www.m0nitorsystem.com/add_data.php?dt="+dt+"&temp="+temp+"&hum="+hum).read()
+    
 
 client = mqtt.Client()
 client.on_connect = on_connect  # Specify on_connect callback
