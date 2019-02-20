@@ -2,8 +2,8 @@
 import time
 import os
 import datetime
-#import requests
 import urllib.request
+import urllib.parse
 from time import strftime
 import paho.mqtt.client as mqtt
     
@@ -19,9 +19,20 @@ def on_message(client, userdata, msg):
     # Decode temperature and humidity values from binary message paylod.
     T,RH = [float(x) for x in msg.payload.decode("utf-8").split(',')]
     dt = datetime.datetime.now().strftime('%Y-%m-%d %H"%M:%S')
-    urllib.request.urlopen("https://www.m0nitorsystem.com/add_data.php?dt="+dt+"&T="+T+"&RH="+RH).read()
     print (dt)
     print('{0}°C {1}%'.format(T, RH))
+    temp = "%.1f" %T
+    hum = "%.1f" %RH
+    data = {}
+    data['dt'] = dt
+    data['temp'] = temp
+    data['hum'] = hum
+    url_values = urllib.parse.urlencode(data)
+    print(url_values)
+    url = 'https://www.m0nitorsystem.com/add_data.php'
+    full_url = url + '?' + url_values
+    data = urllib.request.urlopen(full_url)
+    
     
 
 client = mqtt.Client()
