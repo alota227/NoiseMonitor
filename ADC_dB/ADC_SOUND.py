@@ -54,9 +54,9 @@ while True:
     #print('{1:>6}'.format(result))
     # Regression Analysis
 result = (result-930.2969)/(9.168)
-while (result < 105 && result > 35):
+while (result < 105 and result > 35):
 	print(results)
-  if (result < 35 || result > 105)
+  if (result < 35 or result > 105)
 	break
     # Pause for half a second.
     time.sleep(0.1)
