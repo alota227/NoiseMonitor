@@ -1,6 +1,7 @@
 # Simple demo of reading each analog input from the ADS1x15 and printing it to
 # the screen.
 # Author: Tony DiCola
+# Edited by: Abdulaziz Alotaibi / University of Regina 2019
 # License: Public Domain
 import time
 
@@ -25,7 +26,6 @@ adc = Adafruit_ADS1x15.ADS1015()
 #  -   4 = +/-1.024V
 #  -   8 = +/-0.512V
 #  -  16 = +/-0.256V
-# See table 3 in the ADS1015/ADS1115 datasheet for more info on gain.
 GAIN = 1
 
 print('Reading ADS1x15 values, press Ctrl-C to quit...')
@@ -52,6 +52,7 @@ while True:
         # ADC (ADS1015 = 12-bit, ADS1115 = 16-bit).
     # Print the ADC values.
     #print('{1:>6}'.format(result))
+    # Regression Analysis
     result = (result-930.2969)/(9.168)
     print(result)
     # Pause for half a second.
