@@ -1,0 +1,35 @@
+from firebase import firebase
+import time
+import os
+import datetime
+import urllib.request
+import urllib.parse
+from time import strftime
+
+firebase = firebase.FirebaseApplication('https://noise-c2b8e.firebaseio.com/', None)
+
+while True:
+    result = firebase.get('/',None)
+    print (result)
+
+    temperature=firebase.get('/temperature',None)
+    print ('Temperature: '+str(temperature))
+
+    humidity=firebase.get('/humidity',None)
+    print ('Humidity: '+str(humidity))
+    dt = datetime.datetime.now().strftime('%Y-%m-%d %H"%M:%S')
+    print (dt)
+    temp = "%.1f" %temperature
+    hum = "%.1f" %humidity
+    data = {}
+    data['dt'] = dt
+    data['temp'] = temp
+    data['hum'] = hum
+    url_values = urllib.parse.urlencode(data)
+    print(url_values)
+    url = 'https://www.m0nitorsystem.com/add_data.php'
+    full_url = url + '?' + url_values
+    data = urllib.request.urlopen(full_url)
+    print ('------------')
+    
+    time.sleep(2)
