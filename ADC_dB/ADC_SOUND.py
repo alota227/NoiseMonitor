@@ -4,10 +4,10 @@
 # Edited by: Abdulaziz Alotaibi / University of Regina 2019
 # License: Public Domain
 import time
-
-# Import the ADS1x15 module.
+import numpy as np
 import Adafruit_ADS1x15
-
+import csv
+import math
 
 # Create an ADS1115 ADC (16-bit) instance.
 #adc = Adafruit_ADS1x15.ADS1115()
@@ -29,32 +29,53 @@ adc = Adafruit_ADS1x15.ADS1015()
 GAIN = 1
 
 print('Reading ADS1x15 values, press Ctrl-C to quit...')
-# Print nice channel column headers.
-print('| {0:>6} | {1:>6} | {2:>6} | {3:>6} |'.format(*range(4)))
+#with open("dB_Values22.cvs", "w") as out_file
 
-print('-' * 37)
-# Main loop.
+def conv_db_quad ():
+    while True:
+        result =adc.read_adc(0, gain=GAIN, data_rate=3300)
+        #if (result < 1350) and (result > 1100):
+
+def db_quad():
+    while True:
+        result =adc.read_adc(0, gain=GAIN, data_rate=3300)
+        if (result<2500) and (result > 1332.2):
+            result = (27.0558+(math.sqrt(1.09702*result-1461.25797)))/(0.54851)
+            if (result < 100) and (result > 35):
+                return result
+def conv_db ():
+    while True:
+        result =adc.read_adc(0, gain=GAIN, data_rate=3300)
+        if (result < 1363) and (result > 1230):
+            result=(result-990.8196)/(6.163967)
+            if (result < 62) and (result >35):  
+                return result
+        if (result <1500) and (result > 1390):
+            result=(result-150.0336)/(19.1704)
+            if (result < 72) and (result >61):  
+                return result            
+        if (result <1621) and (result > 1520):
+            result=(result-145.8678)/(18.3677)
+            if (result < 82) and (result >71):  
+                return result
+        if (result <1940) and (result >1621):
+            result=(result+902.623)/(31.10444)
+            if (result < 99) and (result >81):  
+                return result
+##dataset=open("dataset55555.csv", "w")
+##def write_data():
+##    obj=csv.writer(dataset)
+##    obj.writerow([db_value()])
+##
+##while True:
+##    write_data()
+##dataset.close()
+
 while True:
-    # Read all the ADC channel values in a list.
-    #values = [0]*4
-    for i in range(4):
-        # Read the specified ADC channel using the previously set gain value.
-        #values[i] = 
-	result =adc.read_adc(0, gain=GAIN, data_rate=3300)
-
-	#result = values*0.00122
-        # Note you can also pass in an optional data_rate parameter that controls
-        # the ADC conversion time (in samples/second). Each chip has a different
-        # set of allowed data rate values, see datasheet Table 9 config register
-        # DR bit values.
-        #values[i] = adc.read_adc(i, gain=GAIN, data_rate=128)
-        # Each value will be a 12 or 16 bit signed integer value depending on the
-        # ADC (ADS1015 = 12-bit, ADS1115 = 16-bit).
-    # Print the ADC values.
-    #print('{1:>6}'.format(result))
-    # Regression Analysis
-	result = (result-930.2969)/(9.168)
-	print(results)
-	time.sleep(0.1)
-
-
+    
+    #res =db_value()
+    #read_adc_ch0 =adc.read_adc(0, gain=GAIN,data_rate=3300)
+    print conv_db()
+    #print db_value()
+    #print read_adc_ch0
+    time.sleep(0.5)
