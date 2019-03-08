@@ -45,22 +45,22 @@ def db_quad():
                 return result
 def conv_db ():
     while True:
-        result =adc.read_adc(0, gain=GAIN, data_rate=3300)
-        if (result < 1363) and (result > 1230):
-            result=(result-990.8196)/(6.163967)
-            if (result < 62) and (result >35):  
+        result =adc.read_adc(0, gain=GAIN, data_rate=3300) #Read ADC
+        if (result < 1363) and (result > 1230): #Limiting ADC input to display 35-50
+            result=(result-990.8196)/(6.163967) # Converting ADC to dB
+            if (result < 62) and (result >35):  # Avoiding false data
                 return result
-        if (result <1500) and (result > 1390):
-            result=(result-150.0336)/(19.1704)
-            if (result < 72) and (result >61):  
+        if (result <1500) and (result > 1390): #Limiting ADC input to display 35-50
+            result=(result-150.0336)/(19.1704)# Converting ADC to dB
+            if (result < 72) and (result >61):  # Avoiding false data
                 return result            
-        if (result <1621) and (result > 1520):
-            result=(result-145.8678)/(18.3677)
-            if (result < 82) and (result >71):  
+        if (result <1621) and (result > 1520): #Limiting ADC input to display 35-50
+            result=(result-145.8678)/(18.3677)# Converting ADC to dB
+            if (result < 82) and (result >71):  # Avoiding false data
                 return result
-        if (result <1940) and (result >1621):
-            result=(result+902.623)/(31.10444)
-            if (result < 99) and (result >81):  
+        if (result <1940) and (result >1621): #Limiting ADC input to display 35-50
+            result=(result+902.623)/(31.10444)# Converting ADC to dB
+            if (result < 99) and (result >81):  # Avoiding false data
                 return result
 ##dataset=open("dataset55555.csv", "w")
 ##def write_data():
