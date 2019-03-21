@@ -2,6 +2,9 @@ from machine import I2C, Pin, Timer
 import ufirebase as firebase
 import ads1x15
 import time
+import numpy as np
+import csv
+import math
 from struct import unpack as unp
 #import network
 #def do_connect():
