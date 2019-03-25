@@ -23,16 +23,16 @@ while True:
     print ('Humidity: '+str(humidity))
     
     north=firebase.get('/North',None)
-    print ('MIC1: '+str(north))
+    print ('MIC1: '+ north)
     
     east=firebase.get('/East',None)
-    print ('MIC2: '+str(east))
+    print ('MIC2: '+ east)
     
     south=firebase.get('/South',None)
-    print ('MIC3: '+str(south))
+    print ('MIC3: '+ south)
     
     west=firebase.get('/West',None)
-    print ('MIC4: '+str(west))
+    print ('MIC4: '+ west)
     
     ave = average(north,east,south,west)
     avg = str(ave)
@@ -43,22 +43,17 @@ while True:
     print (dt)
     
     temp = "%.1f" %temperature
-    spl = "%.1f" %humidity
-    oneNorth = "%.1f" %north
-    oneEast = "%.1f" %east
-    oneSouth = "%.1f" %south
-    oneWest = "%.1f" %west
-    spl = "%.1f" %avg
+    hum = "%.1f" %humidity
     
     data = {}
     data['dt'] = dt
     data['temp'] = temp
     data['hum'] = hum
-    data['oneNorth'] = oneNorth
-    data['oneEast'] = oneEast
-    data['oneSouth'] = oneSouth
-    data['oneWest'] = oneWest
-    data['spl'] = spl
+    data['oneNorth'] = north
+    data['oneEast'] = east
+    data['oneSouth'] = south
+    data['oneWest'] = west
+    data['spl'] = avg
     
     url_values = urllib.parse.urlencode(data)
     print(url_values)
