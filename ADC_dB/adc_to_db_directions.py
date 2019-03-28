@@ -31,7 +31,94 @@ adc = ads1x15.ADS1015(i2c, addr, gain)
 #URL = 'noise-c2b8e'
 #print(firebase.get(URL))
 #
-def conv_to_db ():
+def north_mic ():
+    while True:
+        result =adc.read(rate =7, channel1 =3) #Read ADC
+        if (result < 893) and (result > 840): #Limiting ADC input to display 35-50
+            result=(result-667.1349)/(4.33287) # Converting ADC to dB
+            if (result < 52) and (result >38):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <925) and (result > 892): #Limiting ADC input to display 50-60
+            result=(result-747.2502)/(2.741792)# Converting ADC to dB
+            if (result < 64) and (result >52):  # Avoiding false data
+                #result = np.float16(result)
+                return result            
+        if (result <1020) and (result > 924): #Limiting ADC input to display 60-70
+            result=(result-145.8678)/(18.3677)# Converting ADC to dB
+            if (result < 71) and (result >61):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <1200) and (result >1020): #Limiting ADC input to display 70-80
+            result=(result+344.078)/(19.00119)# Converting ADC to dB
+            if (result < 82) and (result >71):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <1600) and (result >1199): #Limiting ADC input to display 80-90
+            result=(result+1831.32)/(37.57249)# Converting ADC to dB
+            if (result < 93) and (result >79):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+            
+ def east_mic ():
+    while True:
+        result =adc.read(rate =7, channel1 =2) #Read ADC
+        if (result < 893) and (result > 840): #Limiting ADC input to display 35-50
+            result=(result-667.1349)/(4.33287) # Converting ADC to dB
+            if (result < 52) and (result >38):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <925) and (result > 892): #Limiting ADC input to display 50-60
+            result=(result-747.2502)/(2.741792)# Converting ADC to dB
+            if (result < 64) and (result >52):  # Avoiding false data
+                #result = np.float16(result)
+                return result            
+        if (result <1020) and (result > 924): #Limiting ADC input to display 60-70
+            result=(result-145.8678)/(18.3677)# Converting ADC to dB
+            if (result < 71) and (result >61):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <1200) and (result >1020): #Limiting ADC input to display 70-80
+            result=(result+344.078)/(19.00119)# Converting ADC to dB
+            if (result < 82) and (result >71):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <1600) and (result >1199): #Limiting ADC input to display 80-90
+            result=(result+1831.32)/(37.57249)# Converting ADC to dB
+            if (result < 93) and (result >79):  # Avoiding false data
+                #result = np.float16(result)
+                return result           
+ 
+def south_mic ():
+    while True:
+        result =adc.read(rate =7, channel1 =1) #Read ADC
+        if (result < 893) and (result > 840): #Limiting ADC input to display 35-50
+            result=(result-667.1349)/(4.33287) # Converting ADC to dB
+            if (result < 52) and (result >38):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <925) and (result > 892): #Limiting ADC input to display 50-60
+            result=(result-747.2502)/(2.741792)# Converting ADC to dB
+            if (result < 64) and (result >52):  # Avoiding false data
+                #result = np.float16(result)
+                return result            
+        if (result <1020) and (result > 924): #Limiting ADC input to display 60-70
+            result=(result-145.8678)/(18.3677)# Converting ADC to dB
+            if (result < 71) and (result >61):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <1200) and (result >1020): #Limiting ADC input to display 70-80
+            result=(result+344.078)/(19.00119)# Converting ADC to dB
+            if (result < 82) and (result >71):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+        if (result <1600) and (result >1199): #Limiting ADC input to display 80-90
+            result=(result+1831.32)/(37.57249)# Converting ADC to dB
+            if (result < 93) and (result >79):  # Avoiding false data
+                #result = np.float16(result)
+                return result
+
+def west_mic ():
     while True:
         result =adc.read(rate =7, channel1 =0) #Read ADC
         if (result < 893) and (result > 840): #Limiting ADC input to display 35-50
@@ -60,8 +147,21 @@ def conv_to_db ():
                 #result = np.float16(result)
                 return result
             
-            
-            
+def direction (): #compares the dB levels of each microphone and deterimine the direction of the sound
+    north1=north_mic()
+    east1=east_mic()
+    south1=south_mic()
+    west1=west_mic()
+    
+    if (north1>east1 and north1>south1 and north1>west1):
+        print ("North") #Source of Noise
+    elif (east1>north1 and east1>south1 and east1>west1):
+        print ("East")
+    elif (south1>north1 and south1>east1 and south1>west1):
+        print ("South")
+    elif (west1>north1 and west1>east1 and west1>south1):
+        print ("West")
+
 URL = 'noise-c2b8e'
 print(firebase.get(URL))
 while True:
