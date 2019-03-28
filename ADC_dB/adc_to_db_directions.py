@@ -18,19 +18,13 @@ def do_connect():
             pass
     print('network config:', wlan.ifconfig())
 do_connect()    
-
-
 addr = 72
 gain = 1
-
-
 i2c = I2C(scl=Pin(0), sda=Pin(4), freq=400000)
 adc = ads1x15.ADS1015(i2c, addr, gain)
-
-#
 #URL = 'noise-c2b8e'
 #print(firebase.get(URL))
-#
+
 def north_mic ():
     while True:
         result =adc.read(rate =7, channel1 =3) #Read ADC
@@ -152,6 +146,15 @@ def direction (): #compares the dB levels of each microphone and deterimine the 
     east1=east_mic()
     south1=south_mic()
     west1=west_mic()
+    
+    addNE= north1 + east1
+    addNW= north1 + west1
+    addSE= south1 + east1
+    addSW= south1 + west1
+    subNE= north1 - east1
+    subNW= north1 - west1
+    subSE= south1 - east1
+    subSW= south1 - west1    
     
     if (north1>east1 and north1>south1 and north1>west1):
         print ("North") #Source of Noise
