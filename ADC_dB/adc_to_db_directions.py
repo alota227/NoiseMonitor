@@ -157,13 +157,24 @@ def direction (): #compares the dB levels of each microphone and deterimine the 
     subSW= south1 - west1    
     
     if (north1>east1 and north1>south1 and north1>west1):
-        print ("North") #Source of Noise
-    elif (east1>north1 and east1>south1 and east1>west1):
-        print ("East")
-    elif (south1>north1 and south1>east1 and south1>west1):
-        print ("South")
-    elif (west1>north1 and west1>east1 and west1>south1):
-        print ("West")
+        if (addNE > addNW and addNE > addSW and addNE > addSE):
+            if (subNE > 6 and subNE < -6): #Threshold +/- 5dB SPL
+                print ("North East")
+        else:
+            print ("North")
+        
+    elif (east1>north1 and east1>south1 and east1>west1): #East reading is the largest value
+        if (north1>south1): #check for NE source
+            if (subNE > -6 and subNE < 6): #validates threshold values
+                print ("North East")
+            else:
+                print ("East")
+        elif (south1>north1):
+            if (subSE > -6 and sub < 6):
+                print ("South East")
+            else:
+                print ("East")
+
 
 URL = 'noise-c2b8e'
 print(firebase.get(URL))
