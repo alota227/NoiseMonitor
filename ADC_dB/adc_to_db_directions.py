@@ -163,13 +163,13 @@ def direction (): #compares the dB levels of each microphone and deterimine the 
         else:
             print ("North")
         
-    elif (east1>north1 and east1>south1 and east1>west1): #East reading is the largest value
+    if (east1>north1 and east1>south1 and east1>west1): #East reading is the largest value
         if (north1>south1): #check for NE source
             if (subNE > -6 and subNE < 6): #validates threshold values
                 print ("North East")
             else:
                 print ("East")
-        elif (south1>north1):
+        if (south1>north1):
             if (subSE > -6 and sub < 6):
                 print ("South East")
             else:
