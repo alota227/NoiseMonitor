@@ -22,19 +22,19 @@ while True:
     humidity=firebase.get('/humidity',None)
     print ('Humidity: '+str(humidity))
     
-    north=firebase.get('/North',None)
-    print ('MIC1: '+ north)
+    oneNorth=firebase.get('/North',None)
+    print ('MIC1: '+ str(oneNorth))
     
     east=firebase.get('/East',None)
-    print ('MIC2: '+ east)
-    
+    print ('MIC2: '+ str(east))
+#    
     south=firebase.get('/South',None)
-    print ('MIC3: '+ south)
+    print ('MIC3: '+ str(south))
     
     west=firebase.get('/West',None)
-    print ('MIC4: '+ west)
-    
-    ave = average(north,east,south,west)
+    print ('MIC4: '+ str(west))
+#    
+    ave = average(oneNorth,east,south,west)
     avg = str(ave)
     print(avg)
     
@@ -49,7 +49,7 @@ while True:
     data['dt'] = dt
     data['temp'] = temp
     data['hum'] = hum
-    data['oneNorth'] = north
+    data['oneNorth'] = oneNorth
     data['oneEast'] = east
     data['oneSouth'] = south
     data['oneWest'] = west
