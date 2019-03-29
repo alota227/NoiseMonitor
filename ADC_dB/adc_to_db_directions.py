@@ -2,29 +2,21 @@ from machine import I2C, Pin, Timer
 import ufirebase as firebase
 import ads1x15
 import time
-#import numpy as np
-#import csv
-#import math
 from struct import unpack as unp
 import network
-def do_connect():
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    if not wlan.isconnected():
-        print('connecting to network...')
-        wlan.connect("uofrGuest", "")
-        #wlan.connect("SASKTEL0059", "98ce5f13")
-        while not wlan.isconnected():
-            pass
-    print('network config:', wlan.ifconfig())
-do_connect()    
+
+
 addr = 72
 gain = 1
+
+
 i2c = I2C(scl=Pin(0), sda=Pin(4), freq=400000)
 adc = ads1x15.ADS1015(i2c, addr, gain)
+
+#
 #URL = 'noise-c2b8e'
 #print(firebase.get(URL))
-
+#
 def north_mic ():
     while True:
         result =adc.read(rate =7, channel1 =3) #Read ADC
@@ -54,7 +46,7 @@ def north_mic ():
                 #result = np.float16(result)
                 return result
             
- def east_mic ():
+def east_mic ():
     while True:
         result =adc.read(rate =7, channel1 =2) #Read ADC
         if (result < 893) and (result > 840): #Limiting ADC input to display 35-50
@@ -158,62 +150,73 @@ def direction (): #compares the dB levels of each microphone and deterimine the 
     
     ## Checks for N, NE, NW
     if (north1>east1 and north1>south1 and north1>west1): ## checks if north is largest reading
-        if (addNE > addNW and addNE > addSW and addNE > addSE):
-            if (subNE > -6 and subNE < 6): #Threshold +/- 5dB SPL
-                print ("North East")
-        if (addNW > addNE and addNW > addSW and addNW > addSE):
-            if (subNW > -6 and subNW < 6):
-                print ("North West")
+        if ((addNE > addNW) and (addNE > addSW) and (addNE > addSE ) and (subNE > -6 and subNE < 6)):
+            print ("North East")
+        elif ((addNW > addNE) and (addNW > addSW) and (addNW > addSE) and (subNW > -6 and subNW < 6)):
+            print ("North West")
         else:
             print ("North")
             
      ## Checks for S, SE, SW
     if (south1>east1 and south1>north1 and south1>west1): ## checks if south is largest reading
-        if (addSE > addNW and addSE > addSE and addSE > addSE):
-            if (subSE > -6 and subSE < 6): #Threshold +/- 5dB SPL
-                print ("South East")
-        if (addSW > addNE and addSW > addSW and addSW > addSE):
-            if (subSW > -6 and subSW < 6):
-                print ("South West")
+        if ((addSE > addNW) and (addSE > addSE) and (addSE > addSE) and (subSE > -6 and subSE < 6)):
+            print ("South East")
+        elif ((addSW > addNE) and (addSW > addSW) and (addSW > addSE) and (subSW > -6 and subSW < 6)):
+            print ("South West")
         else:
             print ("South")
             
      ## Checks for E, NE, SE
     if (east1>south1 and east1>north1 and east1>west1): ## checks if east is largest reading
-        if (addSE > addNW and addSE > addSW and addSE > addNE):
-            if (subSE > -6 and subSE < 6): #Threshold +/- 5dB SPL
-                print ("South East")
-        if (addNE > addNW and addNE > addSW and addNE > addSE):
-            if (subNE > -6 and subNE < 6):
-                print ("North East")
+        if ((addSE > addNW) and (addSE > addSW) and (addSE > addNE) and (subSE > -6 and subSE < 6)):
+            print ("South East")
+        elif ((addNE > addNW) and (addNE > addSW) and (addNE > addSE) and (subNE > -6 and subNE < 6)):
+            print ("North East")
         else:
             print ("East")
 
      ## Checks for W, NW, SW
-    if (west1>south1 and west1>north1 and west1>east1): ## checks if west is largest reading
-        if (addSW > addNW and addSW > addSE and addSW > addNE):
-            if (subSW > -6 and subSW < 6): #Threshold +/- 5dB SPL
-                print ("South West")
-        if (addNW > addNE and addNW > addSW and addNW > addSE): 
-            if (subNW > -6 and subNW < 6):
-                print ("North West")
-        else:
-            print ("West")
+##    if (west1>south1 and west1>north1 and west1>east1): ## checks if west is largest reading
+##        if ((addSW > addNW) and (addSW > addSE) and (addSW > addNE) and (subSW > -6 and subSW < 6)):
+##            print ("South West")
+##        elif ((addNW > addNE) and (addNW > addSW) and (addNW > addSE) and (subNW > -6 and subNW < 6) ): 
+##            print ("North West")
+##        else:
+##            print ("West")
 
-
-
-URL = 'noise-c2b8e'
-print(firebase.get(URL))
+            
+            
+#URL = 'noise-c2b8e'
+#print(firebase.get(URL))
 while True:
+
+        
+    result= south_mic()
+    result2= north_mic()
+    result3= west_mic()
+    result4 = east_mic()
+        #firebase.put(URL,{'West':result, 'South':resultS})
+        #firebase.put(URL,{'South':resultS})
+        #firebase.put(URL,{'West':result})
+    print (result)
+    print(result2)
+    print(result3)
+    print(result4)
+    dir= direction()
+
+
+        #print("-------------------")
+        #firebase.put(URL, {'Mic1': Mic1_Val})
+    time.sleep(0.5)
+
+
     #value = adc.read(rate =7, channel1 =0)
-    #value = adc.read(rate =7, channel1 =1)
+#    value = adc.read(rate =7, channel1 =1)
     #value = adc.read(rate =7, channel1 =2)
     #rv = 
-    result= conv_to_db()
-    #print(conv_to_db())
-    firebase.put(URL,{'North':result})
-    print (result)
-    #firebase.put(URL, {'Mic1': Mic1_Val})
-    time.sleep(0.1)
-
-
+#    result= conv_to_db()
+#    #print(conv_to_db())
+#    firebase.put(URL,{'North':result})
+#    print (value)
+#    #firebase.put(URL, {'Mic1': Mic1_Val})
+#    time.sleep(0.1)
