@@ -159,9 +159,9 @@ def direction (): #compares the dB levels of each microphone and deterimine the 
             
      ## Checks for S, SE, SW
     if (south1>east1 and south1>north1 and south1>west1): ## checks if south is largest reading
-        if ((addSE > addNW) and (addSE > addSE) and (addSE > addSE) and (subSE > -6 and subSE < 6)):
+        if ((addSE > addNW) and (addSE > addNE) and (addSE > addSW) and (subSE > -6 and subSE < 6)):
             print ("South East")
-        elif ((addSW > addNE) and (addSW > addSW) and (addSW > addSE) and (subSW > -6 and subSW < 6)):
+        elif ((addSW > addNE) and (addSW > addNW) and (addSW > addSE) and (subSW > -6 and subSW < 6)):
             print ("South West")
         else:
             print ("South")
@@ -176,13 +176,13 @@ def direction (): #compares the dB levels of each microphone and deterimine the 
             print ("East")
 
      ## Checks for W, NW, SW
-##    if (west1>south1 and west1>north1 and west1>east1): ## checks if west is largest reading
-##        if ((addSW > addNW) and (addSW > addSE) and (addSW > addNE) and (subSW > -6 and subSW < 6)):
-##            print ("South West")
-##        elif ((addNW > addNE) and (addNW > addSW) and (addNW > addSE) and (subNW > -6 and subNW < 6) ): 
-##            print ("North West")
-##        else:
-##            print ("West")
+    if (west1>south1 and west1>north1 and west1>east1): ## checks if west is largest reading
+        if ((addSW > addNW) and (addSW > addSE) and (addSW > addNE) and (subSW > -6 and subSW < 6)):
+            print ("South West")
+        elif ((addNW > addNE) and (addNW > addSW) and (addNW > addSE) and (subNW > -6 and subNW < 6) ): 
+            print ("North West")
+        else:
+            print ("West")
 
             
             
